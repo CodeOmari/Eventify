@@ -1,0 +1,104 @@
+.events-container{
+    background-color: rgb(57, 54, 79);
+}
+.events-container p{
+    color: #fff;
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.4em;
+    line-height: 1.5em;
+}
+.container-heading{
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.8em;
+    color: rgb(57, 54, 79);
+}
+.event-title{
+    text-decoration: none;
+    cursor: pointer;
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.4em;
+    color: rgb(57, 54, 79);
+    transition: color 0.15s;
+}
+.event-title:hover{
+    color: #0D6EFD;
+    text-decoration: underline;
+}
+.event-details{
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1em;
+    color: rgb(57, 54, 79);
+}
+.event-time, .organizer{
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.8em;
+    color: rgb(57, 54, 79);
+}
+.event-location{
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.8em;
+}
+.event-price{
+    color: rgb(57, 54, 79);
+}
+.middot{
+    color: black !important;
+    font-weight: bold;
+}
+.footer{
+    background-color: rgb(57, 54, 79);
+}
+.footer-box h3{
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.6em;
+}
+.footer-box i{
+    margin-right: 8px;
+    font-size: 25px;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    padding-top: 7px;
+    border-radius: 2px;
+    background-color: #339bcc;
+}
+.footer-box .form-control{
+    box-shadow: none !important;
+    border: none;
+    border-radius: 0;
+    margin-top: 25px;
+    max-width: 250px;
+}
+.footer-box .btn-primary{
+    box-shadow: none !important;
+    border: none;
+    border-radius: 0;
+    margin-top: 30px;
+    background-color: #339bcc;
+}
+.motto{
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.2em;
+}
+.description, .details{
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.1em;
+}
