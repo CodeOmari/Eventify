@@ -1,0 +1,80 @@
+{% extends 'master.html' %}
+{% load static %}
+{% load crispy_forms_filters %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+	 <title>Add Event</title>
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/add_event.css' %}">
+{% endblock %}
+
+{% block content %}
+    {# FORM #}
+	<div class="container">
+       <div class="row justify-content-center">
+            <div class="col-sm-4 border px-3 py-3 text-white create-form mb-3">
+                <form action="{% url 'add_event' %}" method="post" enctype="multipart/form-data">
+                    <h2 class="company text-center">Eventify</h2>
+                    <h5 class="form-name mb-3">Add Event</h5>
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    <button class="btn btn-primary w-100">Save Event</button>
+                </form>
+            </div>
+       </div>
+    </div>
+    
+    {#  FOOTER  #}
+    <div class="footer" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 mt-4 pt-2 footer-box">
+                    <h3 class="text-white name">Eventify</h3>
+                    <p class="text-white motto">Discover | Connect | Grow</p>
+                    <p class="text-white description">
+                        Empowering minds through seamless event management, 
+                        where learning meets opportunity. Connect, engage, and 
+                        grow with every event you attend.
+                    </p>
+                </div>
+                <div class="col-sm-4 mt-4 pt-2 footer-box">
+                    <h3 class="text-white name">Contact Us</h3>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxs-map' style='color:#ffffff'  ></i>
+                        World Trade Center, Nairobi
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxs-phone' style='color:#ffffff'  ></i>
+                        +254 712345678
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bx-envelope' style='color:#ffffff'  ></i>
+                        eventify@co.ke
+                    </p>
+                </div>
+                <div class="col-sm-4 mt-4 pt-2 pb-2 footer-box">
+                    <h3 class="text-white name">Connect with us</h3>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-twitter' style='color:#ffffff'  ></i>
+                        X
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-facebook' style='color:#ffffff'  ></i>
+                        Facebook
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-instagram' style='color:#ffffff'  ></i>
+                        Instagram
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-tiktok' style='color:#ffffff'  ></i>
+                        Tiktok
+                    </p>
+                </div>
+            </div>
+        </div>
+     </div>
+{% endblock %}
