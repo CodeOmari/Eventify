@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Quicksand:wght@300..700&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+.navbar-brand{
+    font-family: "Lato", sans-serif;
+    font-size: 1.2em;
+    font-weight: 500;
+    font-style: normal;
+}
+.nav-link{
+    color: rgb(57, 54, 79);
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.9em;
+    font-family: "Lato", sans-serif;
+    transition: background-color 0.15s;
+}
+.nav-link:hover{
+    color: #fff;
+    background-color: #339bcc;
+}
