@@ -1,0 +1,98 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Events</title>
+{% endblock %}
+
+{%  block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/events.css' %}">
+{% endblock %}
+
+{% block content %}
+    {#  OUR EVENTS  #}
+    <div class="container-fluid d-flex justify-content-center">
+        <img src="{% static 'images/event-banner.jpg' %}" alt="banner" class="img-fluid">
+    </div> 
+    
+    {# UPCOMING EVENTS   #}
+    <div class="container">
+         <div class="row mt-4">
+              <h2 class="mb-4 container-heading">Upcoming Events</h2>
+              {% for event in data %}
+                    <div class="col-md-3">
+                        <div class="event-container mb-4">
+                          {% if event.event_image %}
+                              <img src="{{ event.event_image.url }}" alt="event-image" class="img-fluid mb-3">
+                          {% else %}
+                              <img src="{% static 'images/event.png' %}" alt="event-image" class="img-fluid mb-3">
+                          {% endif %}  
+                           <div class="event-details">
+                                <a class="event-title h5" href="#">{{event.event_name}}</a>
+                                <p class="event-details">{{event.event_description}}</p>
+                                <p class="event-time">{{event.event_date}} 
+                                    <span class="middot">&middot;</span> {{ event.event_time }}
+                                </p>
+                                <p class="event-location text-muted">{{ event.event_location }}</p>
+                                <p class="organizer"> <b>Event By:</b> {{ event.organizer }}</p>
+                                <p class="event-price"> <b>Price:</b> Ksh.{{ event.event_price }}</p>
+                                <a href="{% url 'get_ticket' %}" class="btn btn-sm btn-primary">Tickets</a>
+                           </div>
+                        </div>
+                    </div>
+              {% endfor %}
+          </div>
+    </div>
+    
+    
+    {#  FOOTER  #}
+    <div class="footer" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 mt-4 pt-2 footer-box">
+                    <h3 class="text-white name">Eventify</h3>
+                    <p class="text-white motto">Discover | Connect | Grow</p>
+                    <p class="text-white description">
+                        Empowering minds through seamless event management, 
+                        where learning meets opportunity. Connect, engage, and 
+                        grow with every event you attend.
+                    </p>
+                </div>
+                <div class="col-sm-4 mt-4 pt-2 footer-box">
+                    <h3 class="text-white name">Contact Us</h3>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxs-map' style='color:#ffffff'  ></i>
+                        World Trade Center, Nairobi
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxs-phone' style='color:#ffffff'  ></i>
+                        +254 712345678
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bx-envelope' style='color:#ffffff'  ></i>
+                        eventify@co.ke
+                    </p>
+                </div>
+                <div class="col-sm-4 mt-4 pt-2 pb-2 footer-box">
+                    <h3 class="text-white name">Connect with us</h3>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-twitter' style='color:#ffffff'  ></i>
+                        X
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-facebook' style='color:#ffffff'  ></i>
+                        Facebook
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-instagram' style='color:#ffffff'  ></i>
+                        Instagram
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-tiktok' style='color:#ffffff'  ></i>
+                        Tiktok
+                    </p>
+                </div>
+            </div>
+        </div>
+     </div>
+{% endblock %}

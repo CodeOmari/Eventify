@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    {% block extra_css %}
+    {% endblock %}
+
+    {% block title %}
+        <title>Eventify</title>
+    {% endblock %}
+</head>
+<body>
+    {# NAVIGATION SECTION #}
+    <nav class="navbar navbar-expand-sm navbar-light bg-light sticky-top">
+      <div class="container-fluid">
+        <a class="navbar-brand text-primary" href="{% url 'dashboard' %}">
+            <img src="{% static 'images/logo.png' %}" alt="logo" class="img-fluid">
+            Eventify
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mynavbar">
+          <ul class="navbar-nav me-auto ms-auto">
+            <li class="nav-item">
+              <a class="nav-link rounded-pill p-2" href="{% url 'dashboard' %}">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link rounded-pill p-2" href="{% url 'about' %}">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link rounded-pill p-2" href="{% url 'events' %}">Find Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link rounded-pill p-2" href="{% url 'add_event' %}">Create Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link rounded-pill p-2 w-100" href="#contact">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link rounded-pill p-2 w-100" href="{% url 'logout' %}">Log Out</a>
+            </li>
+          </ul>
+          <form class="d-flex pt-2" method="get" action="{% url 'search_event' %}">
+            <input class="form-control me-2" type="text" name="search" placeholder="Search events">
+            <button class="btn btn-primary" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    {# POP UP MESSAGES #}
+     <div class="container">
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible fade show mt-2" role="alert">
+                <p>{{ message }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>

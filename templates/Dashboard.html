@@ -1,0 +1,154 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Dashboard</title>
+{% endblock %}
+
+{% block extra_css %}
+     <link rel="stylesheet" href="{% static 'css/events.css' %}">
+     <link rel="stylesheet" href="{% static 'css/about.css' %}">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container mb-4">
+        <h2 class="mt-4 welcome-message">Welcome Back, {{ username }}!</h2>
+    </div>
+     
+     <div class="container">
+       <div class="events-container pt-4 pb-3 d-flex justify-content-center align-items-center">
+            <p class="text-center p-3">
+                Eventify is your ultimate platform for discovering and managing diverse <br>    
+                events across education, technology, business, art, and workshops. <br>
+                Whether you're seeking free opportunities to learn and connect or premium <br>
+                experiences to elevate your skills, Eventify caters to all. With options 
+                for <br> physical gatherings that foster real-world connections and virtual events 
+                for global accessibility, <br> Eventify ensures every event is designed to inspire, 
+                educate, and create impactful experiences. <br> For organizers, Eventify provides a 
+                seamless solution to showcase your events, <br> reach your target audience, and make a 
+                lasting impact.
+            </p>
+       </div>
+    </div> 
+    
+     <div class="container-fluid">
+         <div class="banner-text mt-2 text-center me-5 pt-2 pe-5">
+            <h2 class="text-center">Event Categories</h2>
+        </div>
+    </div>
+    
+    <div class="container me-5">
+         <div class="row pe-3 ps-3 pb-3 ms-2 mt-2">
+             <div class="col-sm-4 ps-5">
+                 <a href="{% url 'events' %}" class="event-category">
+                     <img src="{% static 'images/tech.webp' %}" alt="icon" class="img-fluid">
+                 </a>
+                 <p class="category-name pt-2">
+                     Tech Events
+                 </p>
+             </div>
+             <div class="col-sm-4 event-category ps-5">
+                 <a href="{% url 'events' %}">
+                     <img src="{% static 'images/business.webp' %}" alt="icon" class="img-fluid">
+                 </a>
+                 <p class="category-name pt-2">
+                     Business Events
+                 </p>
+             </div>
+             <div class="col-sm-4 event-category ps-5">
+                 <a href="{% url 'events' %}">
+                     <img src="{% static 'images/art.webp' %}" alt="icon" class="img-fluid">
+                 </a>
+                 <p class="category-name pt-2">
+                     Art Events
+                 </p>
+             </div>
+         </div>
+    </div>
+    
+     <div class="container-fluid">
+         <div class="banner-text mt-2 text-center me-5 pt-2 pe-5">
+            <h2 class="text-center">Upcoming Events</h2>
+        </div>
+    </div>
+    
+    {#  UPCOMING EVENTS  #}
+    <div class="container">
+         <div class="row">
+              {% if upcoming_events %}
+                    {% for event in upcoming_events %}
+                          <div class="col-md-3">
+                               <div class="event-container mb-4">
+                                  <img src="{{ event.event_image.url }}" alt="event-image" class="img-fluid mb-3"> 
+                                  <div class="event-details">
+                                       <a class="event-title h5" href="#">{{event.event_name}}</a>
+                                       <p class="event-details">{{event.event_description}}</p>
+                                       <p class="event-time">{{event.event_date}} 
+                                           <span class="middot">&middot;</span> {{ event.event_time }}
+                                       </p>
+                                       <p class="event-location text-muted">{{ event.event_location }}</p>
+                                       <p class="organizer"> <b>Event By:</b> {{ event.organizer }}</p>
+                                       <p class="event-price"> <b>Price:</b> Ksh.{{ event.event_price }}</p>
+                                       <a href="{% url 'get_ticket' %}" class="btn btn-sm btn-primary">Tickets</a>
+                                  </div>
+                               </div>
+                          </div>
+                    {% endfor %}
+              {% else %}
+                    <p>No events in the next 5 days.</p>
+              {% endif %}
+         </div>
+    </div>
+    
+   {#  FOOTER  #}
+    <div class="footer" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 mt-4 pt-2 footer-box">
+                    <h3 class="text-white name">Eventify</h3>
+                    <p class="text-white motto">Discover | Connect | Grow</p>
+                    <p class="text-white description">
+                        Empowering minds through seamless event management, 
+                        where learning meets opportunity. Connect, engage, and 
+                        grow with every event you attend.
+                    </p>
+                </div>
+                <div class="col-sm-4 mt-4 pt-2 footer-box">
+                    <h3 class="text-white name">Contact Us</h3>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxs-map' style='color:#ffffff'  ></i>
+                        World Trade Center, Nairobi
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxs-phone' style='color:#ffffff'  ></i>
+                        +254 712345678
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bx-envelope' style='color:#ffffff'  ></i>
+                        eventify@co.ke
+                    </p>
+                </div>
+                <div class="col-sm-4 mt-4 pt-2 pb-2 footer-box">
+                    <h3 class="text-white name">Connect with us</h3>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-twitter' style='color:#ffffff'  ></i>
+                        X
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-facebook' style='color:#ffffff'  ></i>
+                        Facebook
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-instagram' style='color:#ffffff'  ></i>
+                        Instagram
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-tiktok' style='color:#ffffff'  ></i>
+                        Tiktok
+                    </p>
+                </div>
+            </div>
+        </div>
+     </div>
+{% endblock %}

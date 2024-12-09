@@ -1,0 +1,114 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+{% block title %}
+    <title>Eventify-About Us</title>
+{% endblock %}
+
+{% block content %}
+    {#  BANNER  #}
+   <div class="container-fluid">
+        <div class="banner">
+            <img src="{% static 'images/banner.jpg' %}" alt="banner" class="img-fluid">
+        </div>
+   </div>
+    
+   {#  ABOUT DETAILS  #}
+    <div class="container-fluid">
+       <div class="about-details pt-4 pb-3 d-flex justify-content-center align-items-center">
+            <p class="text-center p-3">
+                Eventify is an innovative platform that simplifies the management and <br>
+                discovery of educational events, connecting organizers and participants <br>
+                to create enriching learning experiences. <br> Our mission is to empower 
+                growth through education, fostering collaboration <br> and lifelong learning
+                for a brighter future.
+            </p>
+       </div>
+    </div>
+    
+    {#  ABOUT DETAILS  #}
+    <div class="container-fluid">
+         <div class="banner-text mt-2 text-center me-5 pt-2 pe-5">
+            <h2 class="text-center">Our Goals</h2>
+        </div>
+    </div>
+    
+    {#  OUR GOAL  #}
+    <div class="container me-5">
+         <div class="row pe-3 ps-3 pb-3 ms-2">
+             <div class="col-sm-4">
+                 <img src="{% static 'images/global.png' %}" alt="icon" class="img-fluid">
+                 <p class="our-goal">
+                     Organizing events worldwide seamlessly
+                 </p>
+             </div>
+             <div class="col-sm-4">
+                 <img src="{% static 'images/education.png' %}" alt="icon" class="img-fluid">
+                 <p class="our-goal">
+                     Empowering learning through global events
+                 </p>
+             </div>
+             <div class="col-sm-4">
+                 <img src="{% static 'images/knowledge.png' %}" alt="icon" class="img-fluid">
+                 <p class="our-goal">
+                     Connecting minds, sharing global knowledge
+                 </p>
+             </div>
+         </div>
+    </div>
+    
+    {#  FOOTER  #}
+    <div class="footer" id="contact">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4 mt-4 pt-2 footer-box">
+                    <h3 class="text-white name">Eventify</h3>
+                    <p class="text-white motto">Discover | Connect | Grow</p>
+                    <p class="text-white description">
+                        Empowering minds through seamless event management, 
+                        where learning meets opportunity. Connect, engage, and 
+                        grow with every event you attend.
+                    </p>
+                </div>
+                <div class="col-sm-4 mt-4 pt-2 footer-box">
+                    <h3 class="text-white name">Contact Us</h3>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxs-map' style='color:#ffffff'  ></i>
+                        World Trade Center, Nairobi
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxs-phone' style='color:#ffffff'  ></i>
+                        +254 712345678
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bx-envelope' style='color:#ffffff'  ></i>
+                        eventify@co.ke
+                    </p>
+                </div>
+                <div class="col-sm-4 mt-4 pt-2 pb-2 footer-box">
+                    <h3 class="text-white name">Connect with us</h3>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-twitter' style='color:#ffffff'  ></i>
+                        X
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-facebook' style='color:#ffffff'  ></i>
+                        Facebook
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-instagram' style='color:#ffffff'  ></i>
+                        Instagram
+                    </p>
+                    <p class="p-2 text-white details">
+                        <i class='bx bxl-tiktok' style='color:#ffffff'  ></i>
+                        Tiktok
+                    </p>
+                </div>
+            </div>
+        </div>
+     </div>
+{% endblock %}

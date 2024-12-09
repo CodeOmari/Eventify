@@ -1,0 +1,45 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Events</title>
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/event_opener.css' %}">
+    <link rel="stylesheet" href="{% static 'css/events.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+         <div class="row">
+              <h2 class="search-term mt-3 mb-4">Search Results for "{{ search_term }}"</h2>
+             {% if data %}
+                {% for result in data %} 
+                   <div class="col-md-3">
+                        <div class="event-container mb-4">
+                           {% if result.event_image %}
+                              <img src="{{ result.event_image.url }}" alt="event-image" class="img-fluid mb-3">
+                          {% else %}
+                              <img src="{% static 'images/event.png' %}" alt="event-image" class="img-fluid mb-3">
+                          {% endif %} 
+                           <div class="event-details">
+                                <a class="event-title h5">{{result.event_name}}</a>
+                                <p class="event-details">{{result.event_description}}</p>
+                                <p class="event-time">{{result.event_date}} 
+                                    <span class="middot">&middot;</span> {{ result.event_time }}
+                                </p>
+                                <p class="event-location text-muted">{{ result.event_location }}</p>
+                                <p class="organizer"> <b>Event By:</b> {{ result.organizer }}</p>
+                                <p class="event-price"> <b>Price:</b> Ksh.{{ result.event_price }}</p>
+                                <a href="{% url 'get_ticket' %}" class="btn btn-sm btn-primary">Tickets</a>
+                           </div>
+                        </div>
+                    </div>
+                {% endfor %} 
+             {% else %}
+                 <p>No events found matching your query.</p>
+             {% endif %}
+         </div>
+    </div>
+{% endblock %}
