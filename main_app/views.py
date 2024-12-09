@@ -1,3 +1,4 @@
+import json
 from datetime import timedelta
 
 from django.contrib import messages
@@ -5,11 +6,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.timezone import now
+from django.views.decorators.csrf import csrf_exempt
+from django_daraja.mpesa.core import MpesaClient
 
-from main_app.app_forms import EventForm, LoginForm, TicketForm
-from main_app.models import Events
+from main_app.app_forms import EventForm, LoginForm, RegistrationForm
+from main_app.models import Events, Registration, Payments
 
 
 # Create your views here.
@@ -96,12 +100,57 @@ def register(request):
     return render(request, 'register.html', {'form': form})
 
 
-def get_ticket(request):
+def register_event(request):
     if request.method == "POST":
-        form = TicketForm(request.POST)
+        form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('events')
+            messages.success(request, f"Registration for {form.cleaned_data['event_name']} was  successful!")
+            return redirect('payment_page')
     else:
-        form = TicketForm()
-    return render(request, 'get_ticket.html', {"form": form})
+        form = RegistrationForm()
+    return render(request, 'registration_form.html', {"form": form})
+
+
+def payment_page(request):
+    registration = Registration.objects.last()
+    return render(request, 'payment_page.html', {'registration': registration})
+
+
+def payment(request, id):
+    registration = get_object_or_404(Registration, pk=id)
+    phone_number = registration.phone_number
+
+    cl = MpesaClient()
+    phone_number = registration.phone_number
+    amount = registration.amount
+    account_reference = "Events Ticket"
+    transaction_desc = 'sacco payments'
+    callback_url = 'https://flying-regularly-honeybee.ngrok-free.app/callback'
+    response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
+    if response.response_code == "0":
+        payment = Payments.objects.create(registration=registration,
+                                          merchant_request_id=response.merchant_request_id,
+                                          checkout_request_id=response.checkout_request_id)
+        payment.save()
+        messages.success(request, f"Your payment was initiated successfully!")
+    return redirect('dashboard')
+
+
+def callback(request):
+    repo = json.loads(request.body)
+    data = repo.get['Body']['stkCallback']
+    if data["ResultCode"] == "0":
+        m_id = ["MerchantRequestID"]
+        c_id = ["CheckoutRequestID"]
+        code = ""
+        item = data["CallbackMetadata"]["Item"]
+        for i in item:
+            name = i["Name"]
+            if name == "MpesaReceiptNumber":
+                code = i["Value"]
+        registration = Registration.objects.get(merchant_request_id=m_id, checkout_request_id=c_id)
+        registration.code = code
+        registration.status = "COMPLETED"
+        registration.save()
+    return HttpResponse("OK")

@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import Widget
 
-from main_app.models import Events, Tickets
+from main_app.models import Events, Registration
 
 
 class EventForm(forms.ModelForm):
@@ -14,12 +14,10 @@ class EventForm(forms.ModelForm):
             'event_price': forms.NumberInput(attrs={'type': 'number'}),
         }
 
-
-class TicketForm(forms.ModelForm):
+class RegistrationForm(forms.ModelForm):
     class Meta:
-        model = Tickets
+        model = Registration
         fields = ['first_name', 'last_name', 'phone_number', 'event_name', 'amount']
-
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=50)

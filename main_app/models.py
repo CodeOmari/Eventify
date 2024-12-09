@@ -29,18 +29,31 @@ class Events(models.Model):
     class Meta:
         db_table = 'events'
 
-class Tickets(models.Model):
-    first_name = models.CharField(max_length=80)
-    last_name = models.CharField(max_length=80)
-    phone_number = models.CharField(max_length=20, unique=True)
-    amount = models.IntegerField(default=0)
+
+class Registration(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=100)
     event_name = models.ForeignKey(Events, on_delete=models.CASCADE)
+    amount = models.IntegerField()
+
+    def _str_(self):
+        return f'{self.first_name} {self.last_name} - {self.phone_number} - {self.event_name}'
+
+    class Meta:
+        db_table = 'registration'
+
+class Payments(models.Model):
+    registration = models.ForeignKey(Registration, on_delete=models.CASCADE)
+    merchant_request_id = models.CharField(max_length=100)
+    checkout_request_id = models.CharField(max_length=100)
+    code = models.CharField(max_length=30, null=True)
+    status = models.CharField(max_length=20, default="PENDING")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return f"{self.first_name} {self.last_name} - {self.event_name} - {self.amount}"
+    def _str_(self):
+        return f"{self.registration}-{self.code} - {self.status}"
 
     class Meta:
-        db_table = 'tickets'
-
+        db_table = 'payments'
