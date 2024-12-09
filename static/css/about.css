@@ -1,0 +1,72 @@
+.banner-text h2{
+    font-size: 2.5em;
+    font-weight: 600;
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    color: rgb(57, 54, 79);
+    padding-top: 0.5em;
+}
+.about-details{
+    background-color: rgb(57, 54, 79);
+}
+.about-details p{
+    color: #fff;
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.4em;
+    line-height: 1.5em;
+}
+.our-goal, .category-name{
+    color: rgb(57, 54, 79);
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-right: 2.2em;
+}
+.footer{
+    background-color: rgb(57, 54, 79);
+}
+.footer-box h3{
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.6em;
+}
+.footer-box i{
+    margin-right: 8px;
+    font-size: 25px;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    padding-top: 7px;
+    border-radius: 2px;
+    background-color: #339bcc;
+}
+.footer-box .form-control{
+    box-shadow: none !important;
+    border: none;
+    border-radius: 0;
+    margin-top: 25px;
+    max-width: 250px;
+}
+.footer-box .btn-primary{
+    box-shadow: none !important;
+    border: none;
+    border-radius: 0;
+    margin-top: 30px;
+    background-color: #339bcc;
+}
+.motto{
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.2em;
+}
+.description, .details{
+    font-family: "Lato", sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 1.1em;
+}
