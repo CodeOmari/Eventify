@@ -124,7 +124,7 @@ def payment(request, id):
     cl = MpesaClient()
     phone_number = registration.phone_number
     amount = registration.amount
-    account_reference = "Events Ticket"
+    account_reference = "Eventify Ticket"
     transaction_desc = 'sacco payments'
     callback_url = 'https://flying-regularly-honeybee.ngrok-free.app/callback'
     response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
