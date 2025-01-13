@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-%dj29age9pix)-lmqlpsn@()v-ekuu1)$0la_(i!*+17vgms81
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['.vercel.app']
 
 
 # Application definition
@@ -75,7 +75,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Emobilis.wsgi.application'
+WSGI_APPLICATION = 'api.wsgi.app'
 
 
 # Database
@@ -165,8 +165,8 @@ MPESA_ENVIRONMENT = 'sandbox'
 
 # Credentials for the daraja app
 
-MPESA_CONSUMER_KEY = 'YOUR MPESA_CONSUMER_KEY'
-MPESA_CONSUMER_SECRET = 'YOUR MPESA_CONSUMER_SECRET'
+MPESA_CONSUMER_KEY = 'jVKsVQc0bH2fClLVHpi0gCxVaWsmAqehvSH0TzQJ8CNrK7wu'
+MPESA_CONSUMER_SECRET = 'D1BBHZcxkCq3xcvK12FLAKS7K6UbvME0EgFvzApHsp9shxx4COmzpH7FiNZJDJmd'
 
 #Shortcode to use for transactions. For sandbox  use the Shortcode 1 provided on test credentials page
 
