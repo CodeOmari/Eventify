@@ -12,7 +12,8 @@ from django.utils.timezone import now
 from django.views.decorators.csrf import csrf_exempt
 from django_daraja.mpesa.core import MpesaClient
 
-from main_app.app_forms import EventForm, LoginForm, RegistrationForm
+
+from main_app.app_forms import EventForm, LoginForm, RegistrationForm, PasswordChangeForm
 from main_app.models import Events, Registration, Payments
 
 
@@ -98,6 +99,18 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user = request.user, data = request.POST)
+        if form.is_valid():
+            user = form.save()
+            messages.success(request, 'Password was updated successfully!')
+            return redirect('login')
+        else:
+            form = PasswordChangeForm(request.user)
+        return render(request, 'password_change.html', {'form': form})
 
 
 def register_event(request):
