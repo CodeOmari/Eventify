@@ -24,16 +24,21 @@ from main_app import views
 urlpatterns = [
     path('events/search', views.search_event, name='search_event'),
     path('event/searched', views.search_event, name='search_event'),
+
     path('login', views.login_user, name='login'),
     path('logout', views.signout_user, name='logout'),
     path('register/', views.register, name='register'),
+    path('change-password/', views.change_password, name='change_password'),
+
     path('add/event', views.add_event, name='add_event'),
     path('events/', views.events, name='events'),
     path('', views.dashboard, name='dashboard'),
+    path('about/', views.about, name='about'),
+
     path('event/register', views.register_event, name='register_event'),
     path('event/payment', views.payment_page, name='payment_page'),
     path('payment/<int:id>/', views.payment, name='payment'),
     path('callback/', views.callback, name='trigger'),
-    path('about/', views.about, name='about'),
+
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
