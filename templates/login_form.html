@@ -30,7 +30,7 @@
                     {% csrf_token %}
                     {{ form | crispy }}
 
-                    <div class="mb-2">
+                    <div class="mb-2 text-center">
                         <a href="{% url 'change_password' %}" class="create-account">
                             Forgot password?</a>
                     </div>
