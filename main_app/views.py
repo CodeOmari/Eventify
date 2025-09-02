@@ -3,6 +3,8 @@ from datetime import timedelta
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
@@ -13,7 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django_daraja.mpesa.core import MpesaClient
 
 
-from main_app.app_forms import EventForm, LoginForm, RegistrationForm, PasswordChangeForm
+from main_app.app_forms import EventForm, LoginForm, RegistrationForm, PasswordResetForm
 from main_app.models import Events, Registration, Payments
 
 
@@ -100,17 +102,25 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
 
-@login_required
-def change_password(request):
+
+def update_password(request, username):
+    user = get_object_or_404(User, username=username)
+
     if request.method == 'POST':
-        form = PasswordChangeForm(user = request.user, data = request.POST)
+        form = PasswordResetForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            messages.success(request, 'Password was updated successfully!')
+            user_password = form.cleaned_data["new_password"]
+            user.password = make_password(user_password)
+            user.save()
+            messages.success(request, 'Password updated successfully!')
             return redirect('login')
-        else:
-            form = PasswordChangeForm(request.user)
-        return render(request, 'password_change.html', {'form': form})
+    else:
+        form = PasswordResetForm()
+    return render(request, "password_reset.html", {'form': form, 'username': username})
+
+
+
+
 
 
 def register_event(request):
