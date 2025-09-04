@@ -25,34 +25,42 @@
             <img src="{% static 'images/logo.png' %}" alt="logo" class="img-fluid">
             Eventify
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="mynavbar">
-          <ul class="navbar-nav me-auto ms-auto">
-            <li class="nav-item">
-              <a class="nav-link rounded-pill p-2" href="{% url 'dashboard' %}">Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link rounded-pill p-2" href="{% url 'about' %}">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link rounded-pill p-2" href="{% url 'events' %}">Find Events</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link rounded-pill p-2" href="{% url 'add_event' %}">Create Events</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link rounded-pill p-2 w-100" href="#contact">Contact</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link rounded-pill p-2 w-100" href="{% url 'logout' %}">Log Out</a>
-            </li>
-          </ul>
-          <form class="d-flex pt-2" method="get" action="{% url 'search_event' %}">
-            <input class="form-control me-2" type="text" name="search" placeholder="Search events">
-            <button class="btn btn-primary" type="submit">Search</button>
-          </form>
+
+        <div class="offcanvas offcanvas-start text-bg-important" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Eventify</h5>
+              <button type="button" class="btn-close btn-close-primary" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+              <ul class="navbar-nav me-auto ms-auto">
+                <li class="nav-item">
+                  <a class="nav-link rounded-pill p-2" href="{% url 'dashboard' %}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link rounded-pill p-2" href="{% url 'about' %}">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link rounded-pill p-2" href="{% url 'events' %}">Find Events</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link rounded-pill p-2" href="{% url 'add_event' %}">Create Events</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link rounded-pill p-2 w-100" href="#contact">Contact</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link rounded-pill p-2 w-100" href="{% url 'logout' %}">Log Out</a>
+                </li>
+              </ul>
+              <form class="d-flex pt-2" method="get" action="{% url 'search_event' %}">
+                <input class="form-control me-2" type="text" name="search" placeholder="Search events">
+                <button class="btn btn-primary" type="submit">Search</button>
+              </form>
+          </div>
         </div>
       </div>
     </nav>
