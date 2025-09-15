@@ -2,6 +2,7 @@ import os
 import uuid
 
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -31,14 +32,13 @@ class Events(models.Model):
 
 
 class Registration(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=100)
     event_name = models.ForeignKey(Events, on_delete=models.CASCADE)
     amount = models.IntegerField()
 
     def _str_(self):
-        return f'{self.first_name} {self.last_name} - {self.phone_number} - {self.event_name}'
+        return f'{self.user.username} - {self.phone_number} - {self.event_name}'
 
     class Meta:
         db_table = 'registration'
