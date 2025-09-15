@@ -19,7 +19,7 @@ class EventForm(forms.ModelForm):
 class RegistrationForm(forms.ModelForm):
     class Meta:
         model = Registration
-        fields = ['first_name', 'last_name', 'phone_number', 'event_name', 'amount']
+        fields = ['phone_number', 'event_name', 'amount']
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=50)
