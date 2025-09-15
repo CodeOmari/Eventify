@@ -213,3 +213,5 @@ LOGIN_URL = 'login'
 # pip install gunicorn
 # set allowed host
 # set Procfile
+# Build command: pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate
+# start command: python manage.py runserver 0.0.0.0:8000
