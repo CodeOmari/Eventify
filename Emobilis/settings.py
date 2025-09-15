@@ -34,7 +34,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG") == "False"
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['Eventify.onrender.com']
 
 
 # Application definition
@@ -207,3 +207,9 @@ MPESA_INITIATOR_USERNAME = 'initiator_username'
 MPESA_INITIATOR_SECURITY_CREDENTIAL = 'initiator_security_credential'
 
 LOGIN_URL = 'login'
+
+
+
+# pip install gunicorn
+# set allowed host
+# set Procfile
