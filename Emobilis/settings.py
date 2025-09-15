@@ -34,7 +34,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG") == "False"
 
-ALLOWED_HOSTS = ['Eventify.onrender.com']
+ALLOWED_HOSTS = ['https://eventify-4q6e.onrender.com']
 
 
 # Application definition
@@ -150,7 +150,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Added to allow my server
 CSRF_TRUSTED_ORIGINS = [
-    "https://flying-regularly-honeybee.ngrok-free.app"
+    "https://eventify-4q6e.onrender.com"
 ]
 
 # disable secure cookies
