@@ -61,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'Emobilis.urls'
@@ -130,7 +131,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [BASE_DIR / 'main_app/assets']
 
@@ -211,7 +212,14 @@ LOGIN_URL = 'login'
 
 
 # pip install gunicorn
+# debug off
+# set up staticfiles
+# install whitenoise: pip install whitenoise
+# update middleware with WhiteNoiseMiddleWare
 # set allowed host
 # set Procfile
 # Build command: pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate
 # start command: python manage.py runserver 0.0.0.0:8000
+
+
+# always update requirements.txt
