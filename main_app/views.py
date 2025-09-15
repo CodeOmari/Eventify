@@ -127,7 +127,9 @@ def register_event(request):
     if request.method == "POST":
         form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            registration=form.save(commit=False)
+            registration.user = request.user
+            registration.save()
             messages.success(request, f"Registration for {form.cleaned_data['event_name']} was  successful!")
             return redirect('payment_page')
     else:
