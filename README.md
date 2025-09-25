@@ -1,5 +1,5 @@
 # Eventify
-An events management system
+A Simple Events Management System built with Django
 
 # Features
 This project contains the following features: Dashboard page, About page, Find events page, 
