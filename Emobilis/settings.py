@@ -155,7 +155,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Added to allow my server
 CSRF_TRUSTED_ORIGINS = [
-    "https://eventify-4q6e.onrender.com"
+    "https://eventify-tut6.onrender.com"
 ]
 
 # disable secure cookies
