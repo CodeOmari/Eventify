@@ -35,7 +35,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*", 'codeomari.pythonanywhere.com/']
 
 
 # Application definition
@@ -157,7 +157,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Added to allow my server
 CSRF_TRUSTED_ORIGINS = [
-    "https://eventify-tut6.onrender.com"
+    "https://codeomari.pythonanywhere.com/"
 ]
 
 # disable secure cookies
