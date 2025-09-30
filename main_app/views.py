@@ -47,7 +47,7 @@ def events(request):
 
 
 @login_required
-# @permission_required("main_app.add_event", raise_exception=True)
+@permission_required("main_app.add_event", raise_exception=True)
 def add_event(request):
     if request.method == "POST":
         form = EventForm(request.POST, request.FILES)
