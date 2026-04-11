@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    font-family: "DM Sans", sans-serif;
+}
+.app-name{
+    width: 120px;
+}
+.form-name{
+    color: #3542D4;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: -25px;
+}
+.save-btn, .login-btn, .register-btn{
+    background-color: #3542D4;
+    color: #fff;
+    transition: opacity 0.15s ease;
+    border: none;
+    border-radius: 8px;
+}
+.save-btn:hover, .login-btn:hover, .register-btn:hover{
+    opacity: 0.9;
+}
+.login-page, .register-page{
+    background-color: #5c6b8a;
+}
+.create-form{
+    background-color: #fff;
+    border-radius: 8px;
+    width: 450px;
+}
+.create-account{
+    text-decoration: none;
+    color: #3542D4;
+    font-size: 1rem;
+    font-weight: 400;
+    transition: text-decoration 0.15s ease;
+}
+.create-account:hover{
+    text-decoration: underline;
+}

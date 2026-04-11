@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+.discover-text{
+    color: #E3583E;
+    font-family: "DM Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+}
+.experience{
+    font-family: "DM Serif Text", serif;
+    font-size: 2.7rem;
+    font-weight: 700;
+}
+.highlighted-text{
+    color: #3542D4;
+}
+.form-input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  outline: none;
+}
+.form-input:focus{
+  border: 1px solid #3542D4;
+  box-shadow: 0 0 8px #777ec5;
+}
+.search-btn{
+    background-color: #fff;
+    border: none;
+    border-radius: 4px;
+    height: 43px;
+    margin-left: -47px;
+}
+.event-link{
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: #5c6b8a;
+    font-family: "DM Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: border-radius 0.15s;
+}
+.event-link:hover{
+    border: 1px solid #3542D4;
+}
+.event-link.active{
+    background-color: #3542D4;
+    color: #fff;
+}
+.section-title{
+    color: #E3583E;
+    font-family: "DM Serif Text", serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+.event-container{
+    position: relative;
+}
+.description{
+    position: absolute;
+    bottom: 0;
+    left: 5%;
+}
+.event-image{
+    width: 370px;
+    height: 220px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+.event-img{
+    width: 370px;
+    height: 220px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+.event-image:hover, .event-section:hover{
+    transform: scale(1.05);
+}
+.event-section{
+   cursor: pointer;
+   transition: transform 0.15s ease;
+   position: relative;
+}
+.event-price{
+    position: absolute;
+    top: 2%;
+    right: 4%;
+    background-color: #fff;
+    color: #3542D4;
+    font-family: "DM Serif Text", serif;
+    font-size: 1rem;
+    font-weight: 700;
+}
+.event-type{
+    color: #E3583E;
+    font-family: "DM Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+}
+.event-name{
+    color: #fff;
+    font-family: "DM Serif Text", serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+.event-date, .event-venue{
+    color: #f1f1f1;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.message{
+    color: #3542D4;
+    font-family: "DM Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+}
+.event-description{
+    border: 1px solid #ccc;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    margin-top: -2px;
+    transition: border 0.15s ease;
+}
+.event-description:hover{
+    border: 1px solid #3542D4;
+}
+.name{
+    font-family: "DM Serif Text", serif;
+    font-size: 1rem;
+    font-weight: 700;
+}
+.event-location, .event-attendance, .evnt-date{
+    color: #5c6b8a;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.event-details{
+    text-decoration: none;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #3542D4;
+}

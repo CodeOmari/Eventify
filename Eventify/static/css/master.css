@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+.navigation-section{
+    height: 80px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "DM Sans", sans-serif;
+}
+.app-logo{
+    width: 120px;
+}
+.create-event{
+    background-color: #3542D4;
+    border-radius: 6px;
+}
+.create-event:hover{
+    opacity: 0.9;
+}
+.create-event a{
+    color: #fff;
+    text-decoration: none;
+}
