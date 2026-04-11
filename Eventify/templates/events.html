@@ -1,0 +1,165 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{%  block title %}
+    <title>Eventify - Events</title>
+{% endblock %}
+
+
+{% block extra_css%}
+    <link rel="stylesheet" href="{% static 'css/events.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        {% for message in messages %}
+            <div class="alert {{ message.tags }} alert-dismissible fade show mt-2" role="alert">
+                <p>{{ message }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+   </div> 
+
+
+    <div class="container mt-4">
+        <p class="discover-text">
+            <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
+            fill="#E3583E" viewBox="0 0 24 24" >
+            <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+            <path d="m21.45 11.11-3-1.5-2.7-1.35-1.35-2.7-1.5-3c-.34-.68-1.45-.68-1.79 0l-1.5 3-1.35 2.7-2.7 1.35-3 1.5c-.34.17-.55.52-.55.89s.21.72.55.89l3 1.5 2.7 1.35 1.35 2.7 1.5 3c.17.34.52.55.89.55s.73-.21.89-.55l1.5-3 1.35-2.7 2.7-1.35 3-1.5c.34-.17.55-.52.55-.89s-.21-.72-.55-.89Zm-3.89 1.5-.84.42-2.16 1.08-.3.15-.15.3L12 18.77l-2.11-4.21-.15-.3-.3-.15-2.16-1.08-.84-.42L5.23 12l1.21-.61.84-.42 2.16-1.08.3-.15.15-.3L12 5.23l2.11 4.21.15.3.3.15 2.16 1.08.84.42 1.21.61zM19.5 1.5l-.94 2.06-2.06.94 2.06.94.94 2.06.94-2.06 2.06-.94-2.06-.94z"></path>
+            </svg>
+            Discover amazing events near you
+        </p>
+
+        <p class="experience">
+            Find your next <br> <b class="highlighted-text">unforgettable</b> experience
+        </p>
+
+        <form class="d-flex align-items-center" method="get" action="#">
+            <input class="form-input me-2 w-50 search-bar" type="text" name="search" placeholder="Search events...">
+            <button class="search-btn" type="submit">
+                <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24"  
+                fill="#3542D4" viewBox="0 0 24 24" >
+                <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                <path d="M18 10c0-4.41-3.59-8-8-8s-8 3.59-8 8 3.59 8 8 8c1.85 0 3.54-.63 4.9-1.69l5.1 5.1L21.41 20l-5.1-5.1A8 8 0 0 0 18 10M4 10c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6-6-2.69-6-6"></path>
+                </svg>
+            </button>
+        </form>
+
+        <div class="event-type mt-2 d-flex align-items-center">
+            <a href="{% url 'events' %}" class="event-link rounded-pill ps-2 pe-2 me-2 active">All</a>
+            <a href="{% url 'events' %}?type=tech" class="event-link rounded-pill ps-2 pe-2 me-2">Tech</a>
+            <a href="{% url 'events' %}?type=music" class="event-link rounded-pill ps-2 pe-2 me-2">Music</a>
+            <a href="{% url 'events' %}?type=art" class="event-link rounded-pill ps-2 pe-2 me-2">Art</a>
+            <a href="{% url 'events' %}?type=food" class="event-link rounded-pill ps-2 pe-2 me-2">Food</a>
+            <a href="{% url 'events' %}?type=sports" class="event-link rounded-pill ps-2 pe-2 me-2">Sports</a>
+            <a href="{% url 'events' %}?type=business" class="event-link rounded-pill ps-2 pe-2 me-2">Business</a>
+            <a href="{% url 'events' %}?type=workshop" class="event-link rounded-pill ps-2 pe-2 me-2">Workshop</a>
+        </div>
+
+        <h3 class="section-title mt-4 pt-4 mb-4">UPCOMING EVENTS</h3>
+
+        <div class="container">
+            <div class="row">
+                {% if upcoming_events %}
+                    {% for event in upcoming_events %}  
+                        <div class="col-sm-4 event-container mb-4">
+                            <img src="{{ event.event_image.url }}" alt="event-banner" class="img-fluid event-image">
+
+                            <div class="description">
+                                <h4 class="event-type">{{ event.event_type }}</h4>
+                                <h3 class="event-name">
+                                    {{ event.event_name }}
+                                </h3>
+
+                                <div class="event-schedule d-flex align-items-center">
+                                    <p class="event-date pe-2 d-flex align-items-center">
+                                        <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16"  
+                                        fill="#fff" viewBox="0 0 24 24" class="me-1" >
+                                        <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                                        <path d="M19 4h-2V2h-2v2H9V2H7v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2M5 20V8h14V6v14z"></path><path d="M12 13h5v5h-5z"></path>
+                                        </svg>
+                                        {{ event.event_date }}
+                                    </p>
+
+                                    <p class="event-venue d-flex align-items-center">
+                                        <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16"  
+                                        fill="#fff" viewBox="0 0 24 24" class="me-1" >
+                                        <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                                        <path d="M16 10c0-2.21-1.79-4-4-4s-4 1.79-4 4 1.79 4 4 4 4-1.79 4-4m-6 0c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2"></path><path d="M11.42 21.81c.17.12.38.19.58.19s.41-.06.58-.19c.3-.22 7.45-5.37 7.42-11.82 0-4.41-3.59-8-8-8s-8 3.59-8 8c-.03 6.44 7.12 11.6 7.42 11.82M12 4c3.31 0 6 2.69 6 6 .02 4.44-4.39 8.43-6 9.74-1.61-1.31-6.02-5.29-6-9.74 0-3.31 2.69-6 6-6"></path>
+                                        </svg>
+                                        {{ event.event_location }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="message">No events in the next 5 days.</p>
+                {% endif%}
+            </div>
+        </div>
+
+        <h3 class="section-title mt-4 pt-4 mb-4">ALL EVENTS</h3>
+
+        <div class="container">
+            <div class="row">
+                {% for event in data %}
+                    <div class="col-sm-4 mb-4 event-section">
+                        {% if event.event_image %}
+                            <img src="{{ event.event_image.url }}" alt="event-banner" class="img-fluid event-img">
+                        {% else %}
+                            <img src="{% static 'images/event_default_img.png' %}" alt="event-banner" class="img-fluid event-img">
+                        {% endif %}
+                        <div class="event-price rounded-pill ps-2 pe-2">
+                            {{ event.get_price }}
+                        </div>
+                        <div class="event-description bg-light p-4">
+                            <h4 class="event-type">TECH</h4>
+                            <h3 class="name">
+                                {{ event.event_name}}
+                            </h3>
+
+                            <p class="evnt-date">
+                                <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16"  
+                                fill="#5c6b8a" viewBox="0 0 24 24" class="me-1" >
+                                <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                                <path d="M19 4h-2V2h-2v2H9V2H7v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2M5 20V8h14V6v14z"></path><path d="M12 13h5v5h-5z"></path>
+                                </svg>
+                                {{ event.event_date }} &middot; {{ event.start_time}}
+                            </p>
+
+                            <p class="event-location d-flex align-items-center">
+                                <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16"  
+                                fill="#5c6b8a" viewBox="0 0 24 24" class="me-1" >
+                                <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                                <path d="M16 10c0-2.21-1.79-4-4-4s-4 1.79-4 4 1.79 4 4 4 4-1.79 4-4m-6 0c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2"></path><path d="M11.42 21.81c.17.12.38.19.58.19s.41-.06.58-.19c.3-.22 7.45-5.37 7.42-11.82 0-4.41-3.59-8-8-8s-8 3.59-8 8c-.03 6.44 7.12 11.6 7.42 11.82M12 4c3.31 0 6 2.69 6 6 .02 4.44-4.39 8.43-6 9.74-1.61-1.31-6.02-5.29-6-9.74 0-3.31 2.69-6 6-6"></path>
+                                </svg>
+                                {{ event.event_location }}
+                            </p>
+
+                            <p class="event-attendance d-flex align-items-center">
+                                <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16"  
+                                fill="#5c6b8a" viewBox="0 0 24 24" class="me-1" >
+                                <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                                <path d="M10 13H8c-2.76 0-5 2.24-5 5v1c0 .55.45 1 1 1h10c.55 0 1-.45 1-1v-1c0-2.76-2.24-5-5-5m-5 5c0-1.65 1.35-3 3-3h2c1.65 0 3 1.35 3 3zm7.73-11.49c-.08-.22-.19-.42-.3-.62v-.01c-.69-1.14-1.93-1.89-3.42-1.89-2.28 0-4 1.72-4 4s1.72 4 4 4c1.49 0 2.73-.74 3.42-1.89v-.01c.12-.2.22-.4.3-.62.02-.06.03-.12.05-.18.06-.17.11-.34.15-.52.05-.25.07-.51.07-.78s-.03-.53-.07-.78c-.03-.18-.09-.35-.15-.52-.02-.06-.03-.12-.05-.18M9 10c-1.18 0-2-.82-2-2s.82-2 2-2 2 .82 2 2-.82 2-2 2m6 0q-.165 0-.33-.03c-.22.66-.56 1.27-.98 1.81.41.13.84.22 1.31.22 2.28 0 4-1.72 4-4s-1.72-4-4-4c-.47 0-.9.09-1.31.22.43.53.76 1.14.98 1.81.11-.01.21-.03.33-.03 1.18 0 2 .82 2 2s-.82 2-2 2m1 3h-1.11c.6.58 1.08 1.27 1.44 2.03C17.83 15.2 19 16.46 19 18h-2v1c0 .35-.07.69-.18 1H20c.55 0 1-.45 1-1v-1c0-2.76-2.24-5-5-5"></path>
+                                </svg>
+                                {{ event.booked_slots }}/{{ event.event_slots}} attending
+                            </p>
+
+                            <a href="#" class="event-details">
+                                View Details
+                                <svg  xmlns="http://www.w3.org/2000/svg" width="22" height="22"  
+                                fill="#3542D4" viewBox="0 0 24 24" >
+                                <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                                <path d="M6 13h6v4l6-5-6-5v4H6z"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
