@@ -42,5 +42,8 @@ class Event(models.Model):
             return "Free"
         return f"Ksh {self.event_price}"
     
+    def remaining_slots(self):
+        return self.event_slots - self.booked_slots
+    
     class Meta:
         db_table = 'events'
