@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from django.utils.timezone import now
 from datetime import timedelta
@@ -81,3 +81,7 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'register_form.html', {'form': form})
+
+def event_details(request, id):
+    event = get_object_or_404(Event, id=id)
+    return render(request, 'event_details.html', {'event': event})
