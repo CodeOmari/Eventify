@@ -116,7 +116,7 @@
                             {{ event.get_price }}
                         </div>
                         <div class="event-description bg-light p-4">
-                            <h4 class="event-type">TECH</h4>
+                            <h4 class="event-type">{{ event.event_type }}</h4>
                             <h3 class="name">
                                 {{ event.event_name}}
                             </h3>
@@ -148,12 +148,12 @@
                                 {{ event.booked_slots }}/{{ event.event_slots}} attending
                             </p>
 
-                            <a href="#" class="event-details">
+                            <a href="{% url 'event_details' event.id %}" class="event-details">
                                 View Details
                                 <svg  xmlns="http://www.w3.org/2000/svg" width="22" height="22"  
                                 fill="#3542D4" viewBox="0 0 24 24" >
                                 <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
-                                <path d="M6 13h6v4l6-5-6-5v4H6z"></path>
+                                <path d="M6 13h8.09l-3.3 3.29 1.42 1.42 5.7-5.71-5.7-5.71-1.42 1.42 3.3 3.29H6z"></path>
                                 </svg>
                             </a>
                         </div>
