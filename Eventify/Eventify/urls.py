@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.events, name='events'),
     path('create/event', views.create_event, name='create_event'),
+    path('event/<int:id>/', views.event_details, name='event_details'),
 
     path('login', views.login_user, name='login'),
     path('logout', views.signout_user, name='logout'),
