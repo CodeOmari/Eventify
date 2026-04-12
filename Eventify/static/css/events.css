@@ -137,6 +137,10 @@
     font-family: "DM Serif Text", serif;
     font-size: 1rem;
     font-weight: 700;
+    transition: color 0.15s ease;
+}
+.name:hover{
+    color: #3542D4;
 }
 .event-location, .event-attendance, .evnt-date{
     color: #5c6b8a;
