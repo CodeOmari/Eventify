@@ -1,2 +1,2 @@
 # Eventify
-A Event Management System built with Django
+An Event Management System built with Django
