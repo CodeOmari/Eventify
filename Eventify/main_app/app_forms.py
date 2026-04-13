@@ -1,8 +1,24 @@
 from django import forms
 from django.forms import Widget
 
-from main_app.models import Event
+from main_app.models import Event, Ticket
 
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("This email is already registered.")
+        return email
+    
 
 class EventForm(forms.ModelForm):
     class Meta:
@@ -19,7 +35,7 @@ class EventForm(forms.ModelForm):
             'end_time': 'End Time',
             'event_location': 'Location',
             'event_slots': 'Event Slots',
-            'event_price': 'Price (Ksh)',
+            'event_price': 'Price (Leave empty if event is free)',
             'is_free': 'Free Entry',
             'event_image': 'Event Image',
         }
@@ -41,6 +57,19 @@ class EventForm(forms.ModelForm):
             raise forms.ValidationError("Please enter a price or mark as free.")
 
         return cleaned_data
+    
+
+class TicketForm(forms.ModelForm):
+    class Meta:
+        model = Ticket
+        fields = ['full_name', 'email', 'phone_number', 'tickets']
+
+    labels = {
+        'full_name': 'Enter your full name',
+        'email': 'Email Address',
+        'phone_number': 'Phone Number e.g 0712345678',
+        'tickets': 'Number of Tickets',
+    }
 
 
 class LoginForm(forms.Form):
@@ -48,12 +77,18 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 
-class PasswordResetForm(forms.Form):
-    new_password = forms.CharField(label='New Password', widget=forms.PasswordInput(attrs={'placeholder': 'Enter new password'}))
-    confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs={'placeholder': 'Confirm new password'}))
+class PasswordResetRequestForm(forms.Form):
+    email = forms.EmailField(label='Enter your email address')
+
+
+class SetNewPasswordForm(forms.Form):
+    new_password = forms.CharField(label='New Password',
+                                   widget=forms.PasswordInput(attrs={'placeholder': 'Enter new password'}))
+    confirm_password = forms.CharField(label='Confirm Password',
+                                       widget=forms.PasswordInput(attrs={'placeholder': 'Confirm new password'}))
 
     def clean(self):
-        cleaned_data= super().clean()
+        cleaned_data = super().clean()
         password1 = cleaned_data.get("new_password")
         password2 = cleaned_data.get("confirm_password")
 
