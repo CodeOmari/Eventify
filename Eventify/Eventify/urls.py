@@ -26,8 +26,17 @@ urlpatterns = [
     path('', views.events, name='events'),
     path('create/event', views.create_event, name='create_event'),
     path('event/<int:id>/', views.event_details, name='event_details'),
+    path('event/<int:id>/ticket/', views.get_ticket, name='get_ticket'),
+
+    path('events/search', views.search_event, name='search_event'),
+    path('event/searched', views.search_event, name='search_event'),
+
 
     path('login', views.login_user, name='login'),
     path('logout', views.signout_user, name='logout'),
     path('register/', views.register, name='register'),
+
+    path('password-reset/', views.password_reset_request, name='password_reset_request'),
+    path('reset-password-confirm/<str:token>/', views.password_reset_confirm, name='password_reset_confirm'),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
