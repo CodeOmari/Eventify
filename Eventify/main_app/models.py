@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 import os
 import uuid
@@ -47,3 +48,18 @@ class Event(models.Model):
     
     class Meta:
         db_table = 'events'
+
+
+class Ticket(models.Model):
+    full_name = models.CharField(max_length=150)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    tickets = models.PositiveIntegerField(default=1, validators=[MinValueValidator(1),MaxValueValidator(5)])
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=10, blank=True, null=True)
+    created_at  = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.full_name} - {self.phone_number} - {self.event}'
+    
+    class Meta:
+        db_table = 'tickets'
