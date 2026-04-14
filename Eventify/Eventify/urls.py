@@ -21,9 +21,15 @@ from main_app import views
 from Eventify import settings
 from django.conf.urls.static import static
 
+from django.conf.urls import handler404, handler500
+
+handler404 = 'main_app.views.custom_404'
+handler500 = 'main_app.views.custom_500'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.events, name='events'),
+    path('dashboard', views.dashboard, name='dashboard'),
     path('create/event', views.create_event, name='create_event'),
     path('event/<int:id>/', views.event_details, name='event_details'),
     path('event/<int:id>/ticket/', views.get_ticket, name='get_ticket'),
