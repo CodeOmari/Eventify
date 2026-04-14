@@ -21,7 +21,7 @@
 <body>
      <nav class="navbar navbar-expand-sm navbar-light bg-light sticky-top navigation-section">
       <div class="container">
-        <a class="navbar-brand text-primary" href="{% url 'events' %}">
+        <a class="navbar-brand" href="{% url 'events' %}">
             <img src="{% static 'images/eventify-logo.png' %}" alt="logo" class="img-fluid app-logo">
         </a>
 
@@ -40,7 +40,7 @@
                   <a class="nav-link rounded-pill p-2" href="{% url 'events' %}">Discover</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link rounded-pill p-2" href="#">Dashboard</a>
+                  <a class="nav-link rounded-pill p-2" href="{% url 'dashboard' %}">Dashboard</a>
                 </li>
                 <li class="nav-item create-event ms-2">
                   <a class="d-flex justify-content-center align-items-center p-2" href="{% url 'create_event' %}">Create Event</a>
