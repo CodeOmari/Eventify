@@ -47,15 +47,19 @@
             </button>
         </form>
 
-        <div class="event-type mt-2 d-flex align-items-center">
-            <a href="{% url 'events' %}" class="event-link rounded-pill ps-2 pe-2 me-2 active">All</a>
-            <a href="{% url 'events' %}?type=tech" class="event-link rounded-pill ps-2 pe-2 me-2">Tech</a>
-            <a href="{% url 'events' %}?type=music" class="event-link rounded-pill ps-2 pe-2 me-2">Music</a>
-            <a href="{% url 'events' %}?type=art" class="event-link rounded-pill ps-2 pe-2 me-2">Art</a>
-            <a href="{% url 'events' %}?type=food" class="event-link rounded-pill ps-2 pe-2 me-2">Food</a>
-            <a href="{% url 'events' %}?type=sports" class="event-link rounded-pill ps-2 pe-2 me-2">Sports</a>
-            <a href="{% url 'events' %}?type=business" class="event-link rounded-pill ps-2 pe-2 me-2">Business</a>
-            <a href="{% url 'events' %}?type=workshop" class="event-link rounded-pill ps-2 pe-2 me-2">Workshop</a>
+        <div class="container event-type mt-2">
+            <div class="row">
+                <div class="col-sm-10">
+                    <a href="{% url 'events' %}" class="event-link rounded-pill ps-2 pe-2 me-2 mb-2 active">All</a>
+                    <a href="{% url 'events' %}?type=tech" class="event-link rounded-pill ps-2 pe-2 me-2 mb-2">Tech</a>
+                    <a href="{% url 'events' %}?type=music" class="event-link rounded-pill ps-2 pe-2 me-2 mb-2">Music</a>
+                    <a href="{% url 'events' %}?type=art" class="event-link rounded-pill ps-2 pe-2 me-2">Art</a>
+                    <a href="{% url 'events' %}?type=food" class="event-link rounded-pill ps-2 pe-2 me-2">Food</a>
+                    <a href="{% url 'events' %}?type=sports" class="event-link rounded-pill ps-2 pe-2 me-2">Sports</a>
+                    <a href="{% url 'events' %}?type=business" class="event-link rounded-pill ps-2 pe-2 me-2">Business</a>
+                    <a href="{% url 'events' %}?type=workshop" class="event-link rounded-pill ps-2 pe-2 me-2">Workshop</a>
+                </div>
+            </div>
         </div>
 
         <h3 class="section-title mt-4 pt-4 mb-4">UPCOMING EVENTS</h3>
@@ -106,7 +110,7 @@
         <div class="container">
             <div class="row">
                 {% for event in data %}
-                    <div class="col-sm-4 mb-4 event-section">
+                    <div class="col-12 col-sm-6 col-lg-4 mb-4 event-section">
                         {% if event.event_image %}
                             <img src="{{ event.event_image.url }}" alt="event-banner" class="img-fluid event-img">
                         {% else %}
@@ -115,7 +119,7 @@
                         <div class="event-price rounded-pill ps-2 pe-2">
                             {{ event.get_price }}
                         </div>
-                        <div class="event-description bg-light p-4">
+                        <div class="container event-description bg-light p-4">
                             <h4 class="event-type">{{ event.event_type }}</h4>
                             <h3 class="name">
                                 {{ event.event_name}}
@@ -164,9 +168,9 @@
     </div>
 
     <div class="container-fluid footer-section">
-        <div class="container footer">
+        <div class="container footer pb-2">
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-6 col-sm-3 col-lg-3">
                     <img src="{% static 'images/eventify-B.png' %}" alt="logo" class="img-fluid app-logo pt-1">
 
                     <p class="discover">
@@ -200,7 +204,7 @@
                         Nairobi, Kenya
                     </p>
                 </div>
-                <div class="col-sm-3 d-flex flex-column products">
+                <div class="col-6 col-sm-3 col-lg-3 d-flex flex-column products">
                     <h4 class="mt-5 footer-name">Products</h4>
 
                     <a href="{% url 'events' %}">Browse Events</a>
@@ -208,7 +212,7 @@
                     <a href="#">Event Tickets</a>
                     <a href="{% url 'dashboard' %}">Event Dashboard</a>
                 </div>
-                <div class="col-sm-3 d-flex flex-column company">
+                <div class="col-6 col-sm-3 col-lg-3 d-flex flex-column company">
                     <h4 class="mt-5 footer-name">Company</h4>
 
                     <a href="#">About Us</a>
@@ -216,7 +220,7 @@
                     <a href="#">Blog</a>
                     <a href="#">Press</a>
                 </div>
-                <div class="col-sm-3 d-flex flex-column support">
+                <div class="col-6 col-sm-3 col-lg-3 d-flex flex-column support">
                     <h4 class="mt-5 footer-name">Support</h4>
 
                     <a href="#">Help Center</a>
@@ -228,9 +232,11 @@
         </div>
 
         <div class="container d-flex align-items-center pt-4 pb-4">
-            <p class="reservation">
-                &copy; {{ year }} Eventify. All Rights Reserved.
-            </p>
+            <div>
+                <p class="reservation mt-3">
+                    &copy; {{ year }} Eventify. All Rights Reserved.
+                </p>
+            </div>
 
             <div class="ms-auto">
                 <a href="#" class="pe-2 footer-link">Twitter</a>
