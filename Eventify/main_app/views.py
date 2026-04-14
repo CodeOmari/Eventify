@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.utils import timezone
 from django.utils.timezone import now
-from datetime import timedelta
+from datetime import timedelta, datetime
 from main_app.models import Event
 
 from main_app.app_forms import CustomUserCreationForm, EventForm, LoginForm, TicketForm, PasswordResetRequestForm, SetNewPasswordForm
@@ -32,6 +32,8 @@ def events(request):
 
     data = Event.objects.all()
 
+    year = datetime.now().year
+
     event_type = request.GET.get('type')
 
     if event_type:
@@ -43,6 +45,7 @@ def events(request):
         'upcoming_events': upcoming_events,
         'data': data,
         'events': events,
+        'year': year,
     }
     return render(request, 'events.html', context)
 
@@ -107,7 +110,7 @@ def search_event(request):
     return render(request, 'event_opener.html', {"data": data, "search_term": search_term})
 
 
-@login_required
+
 def get_ticket(request, id):
     event = get_object_or_404(Event, id=id)
     
@@ -277,3 +280,14 @@ def password_reset_confirm(request, token):
     else:
         form = SetNewPasswordForm()
     return render(request, 'password_reset_confirm.html', {'form': form})
+
+@login_required
+def dashboard(request):
+    return render(request, 'dashboard.html')
+
+
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)
+
+def custom_500(request):
+    return render(request, '500.html', status=500)
