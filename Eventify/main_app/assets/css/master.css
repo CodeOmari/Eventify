@@ -4,20 +4,20 @@
     padding: 0;
 }
 .navigation-section{
-    height: 80px;
+    min-height: 80px;
+    padding: 10px 0;
     border-bottom: 1px solid #ccc;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     font-family: "DM Sans", sans-serif;
 }
 .app-logo{
-    width: 120px;
-    margin-top: -80px;
+    width: 50px;
+    height: auto;
+    object-fit: contain;
 }
 .create-event{
     background-color: #3542D4;
     border-radius: 6px;
+    margin-top: 10px;
 }
 .create-event:hover{
     opacity: 0.9;
