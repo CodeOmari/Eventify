@@ -10,21 +10,21 @@ User management section for event organizers only, Create events page, Search ev
 The following languages are used in this project: Bootstrap, CSS, HTML & Python(Django)
 
 # Project Screenshot
-![Events page screenshot](static/images/Eventify-A.png)
+![Events page screenshot](Eventify/main_app/assets/images/Eventify-A.png)
 <br><br>
-![Upcoming Events screenshot](static/images/Eventify-BD.png)
+![Upcoming Events screenshot](Eventify/main_app/assets/images/Eventify-BD.png)
 <br><br>
-![All Events screenshot](static/images/Eventify-C.png)
+![All Events screenshot](Eventify/main_app/assets/images/Eventify-C.png)
 <br><br>
-![Footer section screenshot](static/images/Eventify-D.png)
+![Footer section screenshot](Eventify/main_app/assets/images/Eventify-D.png)
 <br><br>
-![User Registration page screenshot](static/images/Eventify-E.png)
+![User Registration page screenshot](Eventify/main_app/assets/images/Eventify-E.png)
 <br><br>
-![User login page screenshot](static/images/Eventify-F.png)
+![User login page screenshot](Eventify/main_app/assets/images/Eventify-F.png)
 <br><br>
-![Event Details page screenshot](static/images/Eventify-G.png)
+![Event Details page screenshot](Eventify/main_app/assets/images/Eventify-G.png)
 <br><br>
-![Events Registration  page screenshot](static/images/Eventify-H.png)
+![Events Registration  page screenshot](Eventify/main_app/assets/images/Eventify-H.png)
 
 
 ### NB: ANY CONTRIBUTIONS TO THIS PROJECT ARE WARMLY WELCOMED.
