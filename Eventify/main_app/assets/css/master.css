@@ -13,6 +13,7 @@
 }
 .app-logo{
     width: 120px;
+    margin-top: -80px;
 }
 .create-event{
     background-color: #3542D4;

@@ -162,3 +162,55 @@
     font-style: normal;
     color: #3542D4;
 }
+.footer-section{
+    background-color: #051533;
+}
+.footer{
+    border-bottom: 1px solid #5c6b8a;
+}
+.footer-name{
+    color: #fff;
+    font-family: "DM Sans", sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+.app-logo{
+    width: 120px;
+}
+.discover{
+    width: 200px;
+    color: #5c6b8a;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.856rem;
+    font-weight: 500;
+    margin-top: -40px;
+}
+.reservation{
+    color: #5c6b8a;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+.footer-link{
+    text-decoration: none;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #5c6b8a;
+    transition: color 0.15s ease;
+}
+.footer-link:hover{
+    color: #fff;
+}
+.products a, .support a, .company a{
+    text-decoration: none;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.856rem;
+    font-weight: 400;
+    color: #5c6b8a;
+    padding-bottom: 8px;
+    transition: color 0.15s ease;
+}
+.products a:hover, .company a:hover, .support a:hover{
+    color: #fff;
+}
