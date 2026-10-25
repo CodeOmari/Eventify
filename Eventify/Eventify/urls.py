@@ -28,11 +28,17 @@ handler500 = 'main_app.views.custom_500'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('', views.events, name='events'),
-    path('dashboard', views.dashboard, name='dashboard'),
     path('create/event', views.create_event, name='create_event'),
-    path('event/<int:id>/', views.event_details, name='event_details'),
-    path('event/<int:id>/ticket/', views.get_ticket, name='get_ticket'),
+    path('event/<slug:slug>/', views.event_details, name='event_details'),
+    path('event/<slug:slug>/ticket/', views.get_ticket, name='get_ticket'),
+
+    path('dashboard', views.dashboard, name='dashboard'),
+    path('dashboard/event/<slug:slug>/edit/', views.edit_event, name='edit_event'),
+    path('dashboard/event/<slug:slug>/delete/', views.delete_event, name='delete_event'),
+    path('dashboard/event/<slug:slug>/attendees/', views.event_attendees, name='event_attendees'),
+
 
     path('events/search', views.search_event, name='search_event'),
     path('event/searched', views.search_event, name='search_event'),
