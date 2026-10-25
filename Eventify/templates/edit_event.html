@@ -1,0 +1,41 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Eventify - Edit Event</title>
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/create_form.css'%}">
+{% endblock %}
+
+
+{% block content %}
+<div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-sm-4 border px-3 py-3 bg-light mb-3">
+                <form method="post" enctype="multipart/form-data">
+                    <h2 class="app-name me-auto ms-auto">
+                        <img src="{% static 'images/eventify-logo.png' %}" alt="logo" class="img-fluid">
+                    </h2>
+
+                    <h5 class="form-name mb-3 mt-3 text-center">
+                        Edit Event
+                    </h5>
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <div class="d-flex align-items-center justify-content-between mt-4">
+                        <button class="save-btn p-2">Save Changes</button>
+
+                        <a href="{% url 'dashboard' %}"
+                           class="btn btn-outline-secondary">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+       </div>
+</div>
+{% endblock %}
