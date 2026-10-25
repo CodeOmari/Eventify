@@ -158,6 +158,11 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_URL = 'login'
 
+# Automatically log out after 5 minutes of inactivity.
+SESSION_COOKIE_AGE = 300
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 CSRF_COOKIE_SECURE = False
 
 CSRF_TRUSTED_ORIGINS = [
