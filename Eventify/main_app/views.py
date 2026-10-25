@@ -1,15 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
 
 from django.utils import timezone
-from django.utils.timezone import now
-from datetime import timedelta, datetime
-from main_app.models import Event
+from main_app.models import Event, Ticket
 
 from main_app.app_forms import CustomUserCreationForm, EventForm, LoginForm, TicketForm, PasswordResetRequestForm, SetNewPasswordForm
 from django.contrib import messages
 
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 
 from django.core.mail import EmailMultiAlternatives
@@ -22,42 +21,56 @@ from django.urls import reverse
 from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
 from django.contrib.auth.hashers import make_password
 
+from django.core.paginator import Paginator
+
 signer = TimestampSigner()
 
 # Create your views here.
 def events(request):
-    today = now()
-    five_days_later = today + timedelta(days=5)
-    upcoming_events = Event.objects.filter(event_date__range=(today, five_days_later)).order_by('event_date')
+    current_datetime = timezone.localtime()
+    today = current_datetime.date()
+    current_time = current_datetime.time().replace(tzinfo=None)
 
-    data = Event.objects.all()
+    happening_today = Event.objects.filter(
+        event_date=today,
+        end_time__gt=current_time
+    ).order_by('start_time')
 
-    year = datetime.now().year
+    all_events = Event.objects.filter(
+        event_date__gt=today
+    ).order_by('event_date', 'start_time')
 
     event_type = request.GET.get('type')
 
     if event_type:
-        events = Event.objects.filter(event_type=event_type)
-    else:
-        events = Event.objects.all()
+        happening_today = happening_today.filter(
+            event_type=event_type
+        )
+        all_events = all_events.filter(
+            event_type=event_type
+        )
 
     context = {
-        'upcoming_events': upcoming_events,
-        'data': data,
-        'events': events,
-        'year': year,
+        'happening_today': happening_today,
+        'upcoming_events': happening_today,
+        'all_events': all_events,
+        'events': all_events,
+        'data': all_events,
+        'year': today.year,
     }
-    return render(request, 'events.html', context)
 
+    return render(request, 'events.html', context)
 
 @login_required
 def create_event(request):
     if request.method == "POST":
         form = EventForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            event = form.save(commit=False)
+            event.created_by = request.user
+            event.save()
             messages.success(request, f"Event {form.cleaned_data['event_name']} was added successfully!")
-            return redirect('events')
+            return redirect('dashboard')
     else:
         form = EventForm()
     return render(request, 'create_event.html', {"form": form})
@@ -99,20 +112,40 @@ def register(request):
     return render(request, 'register_form.html', {'form': form})
 
 
-def event_details(request, id):
-    event = get_object_or_404(Event, id=id)
+def event_details(request, slug):
+    event = get_object_or_404(Event, slug=slug)
     return render(request, 'event_details.html', {'event': event})
 
 def search_event(request):
-    search_term = request.GET.get('search')
-    data= Event.objects.filter(Q(event_name__icontains=search_term) | Q(organizer__icontains=search_term)
-                                 | Q(event_location__icontains=search_term) | Q(event_type__icontains=search_term))
-    return render(request, 'event_opener.html', {"data": data, "search_term": search_term})
+    current_datetime = timezone.localtime()
+    today = current_datetime.date()
+    current_time = current_datetime.time()
 
+    search_term = request.GET.get('search', '').strip()
 
+    upcoming_events = Event.objects.filter(
+        Q(event_date__gt=today) |
+        Q(event_date=today, end_time__gt=current_time)
+    )
 
-def get_ticket(request, id):
-    event = get_object_or_404(Event, id=id)
+    data = upcoming_events.filter(
+        Q(event_name__icontains=search_term) |
+        Q(organizer__icontains=search_term) |
+        Q(event_location__icontains=search_term) |
+        Q(event_type__icontains=search_term)
+    ).order_by('event_date', 'start_time')
+
+    return render(
+        request,
+        'event_opener.html',
+        {
+            'data': data,
+            'search_term': search_term,
+        }
+    )
+
+def get_ticket(request, slug):
+    event = get_object_or_404(Event, slug=slug)
     
     if request.method == "POST":
         form = TicketForm(request.POST, request.FILES)
@@ -238,7 +271,7 @@ def password_reset_request(request):
 
                         <p>
                             If you did not request a password reset, please ignore this email. <br>
-                            &copy; {timezone.now().year} NovaCare. All rights reserved.
+                            &copy; {timezone.now().year} Eventify. All rights reserved.
                         </p>
                     </div>
                 """
@@ -281,13 +314,209 @@ def password_reset_confirm(request, token):
         form = SetNewPasswordForm()
     return render(request, 'password_reset_confirm.html', {'form': form})
 
-@login_required
-def dashboard(request):
-    return render(request, 'dashboard.html')
-
-
 def custom_404(request, exception):
     return render(request, '404.html', status=404)
 
 def custom_500(request):
     return render(request, '500.html', status=500)
+
+
+@login_required
+def dashboard(request):
+    is_admin = request.user.is_staff or request.user.is_superuser
+
+    if is_admin:
+        events_queryset = Event.objects.all()
+        dashboard_title = "Platform Admin Dashboard"
+    else:
+        events_queryset = Event.objects.filter(
+            created_by=request.user
+        )
+        dashboard_title = "Organizer Dashboard"
+
+    events_queryset = events_queryset.order_by("-created_at").prefetch_related(
+        "ticket_set"
+    )
+
+    event_rows = []
+
+    total_expected_revenue = 0
+    total_confirmed_revenue = 0
+    total_ticket_bookings = 0
+    total_tickets_booked = 0
+    total_capacity = 0
+    total_remaining_slots = 0
+
+    for event in events_queryset:
+        tickets = list(event.ticket_set.all())
+
+        booking_count = len(tickets)
+        tickets_booked = sum(ticket.tickets for ticket in tickets)
+
+        remaining_slots = max(
+            event.event_slots - tickets_booked, 0
+        )
+
+        # Free events have no ticket revenue.
+        ticket_price = (
+            event.event_price or 0
+            if not event.is_free
+            else 0
+        )
+
+        expected_revenue = ticket_price * event.event_slots
+        confirmed_revenue = ticket_price * tickets_booked
+
+        event_rows.append({
+            "event": event,
+            "booking_count": booking_count,
+            "tickets_booked": tickets_booked,
+            "remaining_slots": remaining_slots,
+            "expected_revenue": expected_revenue,
+            "confirmed_revenue": confirmed_revenue,
+        })
+
+        total_expected_revenue += expected_revenue
+        total_confirmed_revenue += confirmed_revenue
+        total_ticket_bookings += booking_count
+        total_tickets_booked += tickets_booked
+        total_capacity += event.event_slots
+        total_remaining_slots += remaining_slots
+
+    # Organizer attendees: only tickets belonging to their own events.
+    if not is_admin:
+        attendees_queryset = (
+            Ticket.objects
+            .filter(event__created_by=request.user)
+            .select_related("event")
+            .order_by("-created_at")
+        )
+
+        attendees_paginator = Paginator(attendees_queryset, 10)
+
+        attendees_page = attendees_paginator.get_page(
+            request.GET.get("attendees_page")
+        )
+    else:
+        attendees_page = None
+
+    # Use the most recent 10 events for the charts.
+    chart_events = event_rows[:10]
+
+    context = {
+        "dashboard_title": dashboard_title,
+        "is_admin": is_admin,
+        "event_rows": event_rows,
+        "attendees_page": attendees_page,
+        "total_events": len(event_rows),
+        "total_ticket_bookings": total_ticket_bookings,
+        "total_tickets_booked": total_tickets_booked,
+        "total_capacity": total_capacity,
+        "total_remaining_slots": total_remaining_slots,
+        "total_expected_revenue": total_expected_revenue,
+        "total_confirmed_revenue": total_confirmed_revenue,
+        "total_users": get_user_model().objects.count() if is_admin else None,
+
+        "chart_labels": [
+            row["event"].event_name for row in chart_events
+        ],
+        "chart_expected": [
+            row["expected_revenue"] for row in chart_events
+        ],
+        "chart_confirmed": [
+            row["confirmed_revenue"] for row in chart_events
+        ],
+        "chart_bookings": [
+            row["tickets_booked"] for row in chart_events
+        ],
+        "chart_remaining": [
+            row["remaining_slots"] for row in chart_events
+        ],
+    }
+
+    return render(request, "dashboard.html", context)
+
+
+@login_required
+def edit_event(request, slug):
+    event = get_manageable_event(request, slug)
+
+    if request.method == "POST":
+        form = EventForm(
+            request.POST,
+            request.FILES,
+            instance=event
+        )
+
+        if form.is_valid():
+            updated_event = form.save(commit=False)
+
+            # Preserve the original owner.
+            updated_event.created_by = event.created_by
+            updated_event.save()
+
+            messages.success(
+                request,
+                f'"{updated_event.event_name}" was updated successfully.'
+            )
+            return redirect('dashboard')
+    else:
+        form = EventForm(instance=event)
+
+    return render(
+        request,
+        'edit_event.html',
+        {
+            'form': form,
+            'event': event,
+        }
+    )
+
+def get_manageable_event(request, slug):
+    is_admin = request.user.is_staff or request.user.is_superuser
+
+    if is_admin:
+        return get_object_or_404(Event, slug=slug)
+
+    return get_object_or_404(
+        Event,
+        slug=slug,
+        created_by=request.user
+    )
+
+@login_required
+@require_POST
+def delete_event(request, slug):
+    event = get_manageable_event(request, slug)
+    event_name = event.event_name
+
+    event.delete()
+
+    messages.success(
+        request,
+        f'"{event_name}" was deleted successfully.'
+    )
+    return redirect('dashboard')
+
+
+@login_required
+def event_attendees(request, slug):
+    # Admins can view any event.
+    # Organizers can view only their own events.
+    event = get_manageable_event(request, slug)
+
+    attendees_queryset = (
+        Ticket.objects
+        .filter(event=event)
+        .order_by("-created_at")
+    )
+
+    paginator = Paginator(attendees_queryset, 10)
+    attendees_page = paginator.get_page(request.GET.get("page"))
+
+    context = {
+        "event": event,
+        "attendees_page": attendees_page,
+    }
+
+    return render(request, "event_attendees.html", context)
