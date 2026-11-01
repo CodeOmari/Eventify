@@ -79,7 +79,7 @@
     margin-top: -15px;
 }
 .progress-bar{
-    background-color: #3542D4;
+    background-color: #3542D4  !important;
 }
 .ticket-btn{
     background-color: #3542D4;
