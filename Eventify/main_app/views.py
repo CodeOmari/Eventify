@@ -40,12 +40,17 @@ def events(request):
         event_date__gt=today
     ).order_by('event_date', 'start_time')
 
-    event_type = request.GET.get('type')
+    # Get selected event category
+    event_type = request.GET.get('type', '').upper()
 
-    if event_type:
+    # Validate and filter by category
+    valid_types = [choice[0] for choice in Event.EVENT_TYPES]
+
+    if event_type in valid_types:
         happening_today = happening_today.filter(
             event_type=event_type
         )
+
         all_events = all_events.filter(
             event_type=event_type
         )
@@ -57,6 +62,7 @@ def events(request):
         'events': all_events,
         'data': all_events,
         'year': today.year,
+        'selected_type': event_type.lower(),
     }
 
     return render(request, 'events.html', context)
@@ -110,7 +116,6 @@ def register(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'register_form.html', {'form': form})
-
 
 def event_details(request, slug):
     event = get_object_or_404(Event, slug=slug)
