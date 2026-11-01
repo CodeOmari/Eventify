@@ -23,21 +23,13 @@
                 Back to events
             </a>
             <div class="ms-auto">
-                <a href="#" class="event-btn p-1">
+                <button class="event-btn p-1" type="button" id="shareEventBtn"  aria-label="Share this event" title="Share this event">
                     <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20"  
                     fill="#5c6b8a" viewBox="0 0 24 24" >
-                    <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
-                    <path d="M5.5 15.5c1.07 0 2.02-.5 2.67-1.26l6.87 3.87c-.01.13-.04.26-.04.39 0 1.93 1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5c-1.07 0-2.02.5-2.67 1.26l-6.87-3.87c.01-.13.04-.26.04-.39s-.02-.26-.04-.39l6.87-3.87C16.47 8.5 17.42 9 18.5 9 20.43 9 22 7.43 22 5.5S20.43 2 18.5 2 15 3.57 15 5.5c0 .13.02.26.04.39L8.17 9.76A3.48 3.48 0 0 0 5.5 8.5C3.57 8.5 2 10.07 2 12s1.57 3.5 3.5 3.5m13 1.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5m0-13c.83 0 1.5.67 1.5 1.5S19.33 7 18.5 7 17 6.33 17 5.5 17.67 4 18.5 4m-13 6.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5S4 12.83 4 12s.67-1.5 1.5-1.5"></path>
+                        <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                        <path d="M5.5 15.5c1.07 0 2.02-.5 2.67-1.26l6.87 3.87c-.01.13-.04.26-.04.39 0 1.93 1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5-1.57-3.5-3.5-3.5c-1.07 0-2.02.5-2.67 1.26l-6.87-3.87c.01-.13.04-.26.04-.39s-.02-.26-.04-.39l6.87-3.87C16.47 8.5 17.42 9 18.5 9 20.43 9 22 7.43 22 5.5S20.43 2 18.5 2 15 3.57 15 5.5c0 .13.02.26.04.39L8.17 9.76A3.48 3.48 0 0 0 5.5 8.5C3.57 8.5 2 10.07 2 12s1.57 3.5 3.5 3.5m13 1.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5m0-13c.83 0 1.5.67 1.5 1.5S19.33 7 18.5 7 17 6.33 17 5.5 17.67 4 18.5 4m-13 6.5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5S4 12.83 4 12s.67-1.5 1.5-1.5"></path>
                     </svg>
-                </a>
-
-                <a href="#" class="event-btn p-1 ms-2">
-                    <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20"  
-                    fill="#5c6b8a" viewBox="0 0 24 24" >
-                    <!--Boxicons v3.0.8 https://boxicons.com | License  https://docs.boxicons.com/free-->
-                    <path d="M11.29 20.66c.2.2.45.29.71.29s.51-.1.71-.29l7.5-7.5c2.35-2.35 2.35-6.05 0-8.41-2.3-2.28-5.85-2.35-8.21-.2-2.36-2.15-5.91-2.09-8.21.2-2.35 2.36-2.35 6.06 0 8.41zM5.21 6.16C6 5.38 7 4.99 8.01 4.99s2.01.39 2.79 1.17l.5.5c.39.39 1.02.39 1.41 0l.5-.5c1.56-1.56 4.02-1.56 5.59 0 1.56 1.57 1.56 4.02 0 5.58l-6.79 6.79-6.79-6.79a3.91 3.91 0 0 1 0-5.58Z"></path>
-                    </svg>
-                </a>
+                </button>
             </div>
         </div>
     </div>
@@ -117,8 +109,16 @@
                         </p>
                     </div>
 
-                    <div class="progress mb-3">
-                        <div class="progress-bar" style="width:70%"></div>
+                    <div class="progress mb-3"
+                        role="progressbar"
+                        aria-label="Ticket availability"
+                        aria-valuenow="{{ event.booked_slots }}"
+                        aria-valuemin="0"
+                        aria-valuemax="{{ event.event_slots }}">
+
+                        <div class="progress-bar"
+                            style="width: {% widthratio event.booked_slots event.event_slots 100 %}%">
+                        </div>
                     </div>
 
                     <a href="{% url 'get_ticket' event.slug %}" class="p-2 ticket-btn text-center">
@@ -131,9 +131,58 @@
                     </a>
 
                     <hr>
-                </div>
             </div>
         </div>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const shareButton = document.getElementById('shareEventBtn');
+
+            shareButton.addEventListener('click', async function () {
+
+                // Get the exact URL of the current event
+                const eventUrl = window.location.href;
+
+                const eventName = "{{ event.event_name|escapejs }}";
+
+                const shareData = {
+                    title: eventName + " | Eventify",
+                    text: `Check out ${eventName} on Eventify!`,
+                    url: eventUrl
+                };
+
+                // Use the native sharing interface
+                if (navigator.share) {
+
+                    try {
+                        await navigator.share(shareData);
+
+                    } catch (error) {
+                        if (error.name !== 'AbortError') {
+                            console.error('Sharing failed:', error);
+                        }
+                    }
+
+                } else {
+
+                    // Copy link for unsupported browsers
+                    try {
+                        await navigator.clipboard.writeText(eventUrl);
+
+                        alert('Event link copied successfully!');
+
+                    } catch (error) {
+                        console.error('Copy failed:', error);
+                        alert('Unable to copy event link.');
+                    }
+                }
+
+            });
+
+        });
+    </script>
 </body>
 </html>
