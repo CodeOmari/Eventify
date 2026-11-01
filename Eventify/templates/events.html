@@ -50,14 +50,45 @@
         <div class="container event-type mt-2">
             <div class="row">
                 <div class="col-sm-10">
-                    <a href="{% url 'events' %}" class="event-link rounded-pill ps-2 pe-2 me-2 mb-2 active">All</a>
-                    <a href="{% url 'events' %}?type=tech" class="event-link rounded-pill ps-2 pe-2 me-2 mb-2">Tech</a>
-                    <a href="{% url 'events' %}?type=music" class="event-link rounded-pill ps-2 pe-2 me-2 mb-2">Music</a>
-                    <a href="{% url 'events' %}?type=art" class="event-link rounded-pill ps-2 pe-2 me-2">Art</a>
-                    <a href="{% url 'events' %}?type=food" class="event-link rounded-pill ps-2 pe-2 me-2">Food</a>
-                    <a href="{% url 'events' %}?type=sports" class="event-link rounded-pill ps-2 pe-2 me-2">Sports</a>
-                    <a href="{% url 'events' %}?type=business" class="event-link rounded-pill ps-2 pe-2 me-2">Business</a>
-                    <a href="{% url 'events' %}?type=workshop" class="event-link rounded-pill ps-2 pe-2 me-2">Workshop</a>
+                    <a href="{% url 'events' %}"
+                        class="event-link {% if not selected_type %}active{% endif %} rounded-pill ps-2 pe-2 me-2 mb-2">
+                        All
+                    </a>
+
+                    <a href="{% url 'events' %}?type=tech"
+                        class="event-link {% if selected_type == 'tech' %}active{% endif %} rounded-pill ps-2 pe-2 me-2 mb-2">
+                        Tech
+                    </a>
+
+                    <a href="{% url 'events' %}?type=music"
+                        class="event-link {% if selected_type == 'music' %}active{% endif %} rounded-pill ps-2 pe-2 me-2 mb-2">
+                        Music
+                    </a>
+
+                    <a href="{% url 'events' %}?type=music"
+                        class="event-link {% if selected_type == 'music' %}active{% endif %} rounded-pill ps-2 pe-2 me-2 mb-2">
+                        Art
+                    </a>
+
+                    <a href="{% url 'events' %}?type=music"
+                        class="event-link {% if selected_type == 'music' %}active{% endif %} rounded-pill ps-2 pe-2 me-2 mb-2">
+                        Food
+                    </a>
+
+                    <a href="{% url 'events' %}?type=music"
+                        class="event-link {% if selected_type == 'music' %}active{% endif %} rounded-pill ps-2 pe-2 me-2 mb-2">
+                        Sports
+                    </a>
+
+                    <a href="{% url 'events' %}?type=music"
+                        class="event-link {% if selected_type == 'music' %}active{% endif %} rounded-pill ps-2 pe-2 me-2 mb-2">
+                        Business
+                    </a>
+
+                    <a href="{% url 'events' %}?type=music"
+                        class="event-link {% if selected_type == 'music' %}active{% endif %} rounded-pill ps-2 pe-2 me-2 mb-2">
+                        Workshop
+                    </a>
                 </div>
             </div>
         </div>
