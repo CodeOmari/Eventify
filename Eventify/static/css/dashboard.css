@@ -20,12 +20,6 @@
     font-size: 1.2rem;
     font-weight: 500;
 }
-.dashboard-actions {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-}
 .dashboard-actions form {
     display: inline-flex;
     margin: 0;
