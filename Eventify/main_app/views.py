@@ -22,6 +22,7 @@ from django.core.signing import TimestampSigner, SignatureExpired, BadSignature
 from django.contrib.auth.hashers import make_password
 
 from django.core.paginator import Paginator
+from django.db import IntegrityError, transaction
 
 signer = TimestampSigner()
 
@@ -149,61 +150,97 @@ def search_event(request):
         }
     )
 
+
+
 def get_ticket(request, slug):
     event = get_object_or_404(Event, slug=slug)
-    
+
     if request.method == "POST":
         form = TicketForm(request.POST, request.FILES)
-    
 
-        if event.booked_slots  >= event.event_slots:
-                messages.error(request, "This event is fully booked.")
-                return redirect("events")
-        
         if form.is_valid():
+
             ticket = form.save(commit=False)
             ticket.event = event
-            ticket.save()
 
-            event.booked_slots += ticket.tickets
-            event.save()
+            # Check for an existing booking using the same phone number
+            existing_ticket = Ticket.objects.filter(
+                event=event,
+                phone_number=ticket.phone_number
+            ).exists()
 
+            if existing_ticket:
+                messages.warning(
+                    request,
+                    "You have already booked a ticket for this event using this phone number."
+                )
+                return redirect("events")
+
+            # Check whether the event is fully booked
+            if event.booked_slots >= event.event_slots:
+                messages.error(
+                    request,
+                    "This event is fully booked."
+                )
+                return redirect("events")
+
+            # Check whether the requested tickets exceed available slots
+            if event.booked_slots + ticket.tickets > event.event_slots:
+                messages.error(
+                    request,
+                    f"Only {event.event_slots - event.booked_slots} "
+                    "ticket(s) remaining for this event."
+                )
+                return redirect("events")
+
+            # Save ticket and update event capacity safely
+            try:
+                with transaction.atomic():
+                    ticket.save()
+
+                    event.booked_slots += ticket.tickets
+                    event.save(update_fields=["booked_slots"])
+
+            except IntegrityError:
+                messages.warning(
+                    request,
+                    "A ticket has already been booked using this phone number for this event."
+                )
+                return redirect("events")
+
+            # Email confirmation
             html_content = f"""
                 <div>
-                    <h2 style='color: #3542D4; text-align: center;'> Eventify </h2>
+                    <h2 style='color: #3542D4; text-align: center;'>Eventify</h2>
 
-                    <p> Hi <strong>{ticket.full_name}</strong>, </p>
+                    <p>Hi <strong>{ticket.full_name}</strong>,</p>
 
                     <p>
-                         You have successfully booked a ticket. Find event details attached below:
+                        You have successfully booked a ticket.
+                        Find your event details below:
                     </p>
 
                     <h3>Event Details</h3>
 
                     <ul>
-                        <li><strong> Ticket ID: </strong> 
-                            #{ticket.id}
+                        <li><strong>Ticket ID:</strong> #{ticket.id}</li>
+                        <li><strong>Number of Tickets:</strong> {ticket.tickets}</li>
+                        <li><strong>Event:</strong> {event.event_name}</li>
+                        <li><strong>Location:</strong> {event.event_location}</li>
+                        <li>
+                            <strong>Date & Time:</strong>
+                            {event.event_date} &middot;
+                            {event.start_time.strftime("%I:%M %p")}
                         </li>
-                        <li><strong> Number of Ticket(s): </strong> 
-                            {ticket.tickets}
-                        </li>
-                        <li><strong> Event: </strong> 
-                            {event.event_name}
-                        </li>
-                        <li><strong> Location: </strong>
-                            {event.event_location}
-                        </li>
-                        <li><strong>  Date & Time: </strong>
-                            {event.event_date} &middot; {event.start_time.strftime("%I:%M %p")}
-                        </li>
-                        <li><strong> Price: </strong> 
-                            { "Free" if event.is_free == True else f'Ksh {event.event_price} per ticket' }
+                        <li>
+                            <strong>Price:</strong>
+                            {"Free" if event.is_free else f"Ksh {event.event_price} per ticket"}
                         </li>
                     </ul>
 
                     <p>
-                        Please present this email at the event entrance. If your ticket has a fee,
-                        payment shall be done at the entrance.
+                        Please present this email at the event entrance.
+                        If your ticket has a fee, payment shall be done at the entrance.
                     </p>
 
                     <hr>
@@ -218,17 +255,77 @@ def get_ticket(request, slug):
             from_email = settings.DEFAULT_FROM_EMAIL
             to = [ticket.email]
 
-            message = EmailMultiAlternatives(subject, "", from_email, to)
+            message = EmailMultiAlternatives(
+                subject,
+                "",
+                from_email,
+                to
+            )
+
             message.attach_alternative(html_content, "text/html")
             message.send()
 
-            messages.success(request, "Ticket booked successfully! A confirmation email has been sent to your email.")
+            messages.success(
+                request,
+                "Ticket booked successfully! A confirmation email has been sent to your email."
+            )
+
             return redirect("events")
+
     else:
         form = TicketForm()
-    return render(request, 'ticket_form.html', {"form":form, "event":event})
+
+    return render(request, 'ticket_form.html', {"form": form, "event": event})
 
 
+def my_tickets(request):
+    tickets = []
+    searched = False
+
+    if request.method == "POST":
+        email = request.POST.get('email', '').strip()
+
+        if not email:
+            messages.error(request, "Please enter your booking email address.")
+        else:
+            searched = True
+
+            # Save the email in the session for ticket detail verification
+            request.session['ticket_lookup_email'] = email.lower()
+
+            tickets = Ticket.objects.filter(
+                email__iexact=email
+            ).select_related('event').order_by('-id')
+
+            if not tickets.exists():
+                messages.info(
+                    request,
+                    "No event bookings were found for this email address. Please check your email and try again."
+                )
+
+    return render(request,'my_tickets.html', {'tickets': tickets,'searched': searched})
+
+def ticket_details(request, ticket_id):
+    email = request.session.get('ticket_lookup_email')
+
+    if not email:
+        return redirect('my_tickets')
+
+    ticket = get_object_or_404(
+        Ticket.objects.select_related('event'),
+        id=ticket_id,
+        email__iexact=email
+    )
+
+    event = ticket.event
+
+    # Calculate total booking amount
+    if event.is_free:
+        total_amount = 0
+    else:
+        total_amount = event.event_price * ticket.tickets
+
+    return render(request, 'ticket_details.html', {'ticket': ticket,'event': event,'total_amount': total_amount,})
 
 def password_reset_request(request):
     if request.method == "POST":
