@@ -1,0 +1,183 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Ticket Details</h2>
+        <p class="text-muted">
+            Your booking information and event details.
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="bg-primary text-white p-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="mb-1">{{ event.event_name }}</h4>
+                            <small>Event Booking Confirmation</small>
+                        </div>
+
+                        <span class="badge bg-light text-success px-3 py-2">
+                            Confirmed
+                        </span>
+                    </div>
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="mb-4">
+                        <h6 class="text-muted">Booking Reference</h6>
+                        <h5 class="fw-bold">#{{ ticket.id }}</h5>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-person-circle me-2"></i>
+                        Customer Information
+                    </h5>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <small class="text-muted">Full Name</small>
+                            <p class="fw-semibold mb-0">{{ ticket.full_name }}</p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <small class="text-muted">Email Address</small>
+                            <p class="fw-semibold mb-0">{{ ticket.email }}</p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <small class="text-muted">Phone Number</small>
+                            <p class="fw-semibold mb-0">{{ ticket.phone_number }}</p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <small class="text-muted">Tickets Booked</small>
+                            <p class="fw-semibold mb-0">{{ ticket.tickets }}</p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-calendar-event me-2"></i>
+                        Event Information
+                    </h5>
+
+                    {% if event.image %}
+                        <div class="mb-3">
+                            <img
+                                src="{{ event.image.url }}"
+                                alt="{{ event.event_name }}"
+                                class="img-fluid rounded-3 w-100"
+                                style="max-height: 280px; object-fit: cover;"
+                            >
+                        </div>
+                    {% endif %}
+
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <small class="text-muted">Event Name</small>
+                            <p class="fw-semibold mb-0">{{ event.event_name }}</p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <small class="text-muted">Date</small>
+                            <p class="fw-semibold mb-0">
+                                {{ event.event_date|date:"D, d M Y" }}
+                            </p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <small class="text-muted">Starting Time</small>
+                            <p class="fw-semibold mb-0">
+                                {{ event.start_time|time:"h:i A" }}
+                            </p>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <small class="text-muted">Location</small>
+                            <p class="fw-semibold mb-0">{{ event.event_location }}</p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h5 class="fw-bold mb-3">
+                        <i class="bi bi-receipt me-2"></i>
+                        Booking Summary
+                    </h5>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Ticket Price</span>
+                        <span>
+                            {% if event.is_free %}
+                                Free
+                            {% else %}
+                                Ksh {{ event.event_price|floatformat:2 }}
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Number of Tickets</span>
+                        <span>{{ ticket.tickets }}</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between border-top pt-3 mt-3">
+                        <h5 class="fw-bold">Total Amount</h5>
+                        <h5 class="fw-bold text-primary">
+                            {% if event.is_free %}
+                                Free
+                            {% else %}
+                                Ksh {{ total_amount|floatformat:2 }}
+                            {% endif %}
+                        </h5>
+                    </div>
+
+                    <div class="alert alert-info mt-4 mb-0">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Keep this booking information for reference when attending
+                        the event. Booking confirmation does not necessarily mean
+                        payment has been verified.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Back Button -->
+            <div class="text-center mt-4">
+                <a href="{% url 'my_tickets' %}"
+                   class="btn btn-outline-primary px-4">
+                    <i class="bi bi-arrow-left me-2"></i>
+                    Back to My Tickets
+                </a>
+
+                <button onclick="window.print()"
+                        class="btn btn-primary px-4 ms-2">
+                    <i class="bi bi-printer me-2"></i>
+                    Print Details
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    @media print {
+        nav, footer, .btn {
+            display: none !important;
+        }
+        body {
+            background: white !important;
+        }
+        .card {
+            box-shadow: none !important;
+            border: 1px solid #ddd !important;
+        }
+    }
+</style>
+{% endblock %}
