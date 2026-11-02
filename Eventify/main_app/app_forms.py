@@ -60,16 +60,47 @@ class EventForm(forms.ModelForm):
     
 
 class TicketForm(forms.ModelForm):
+
     class Meta:
         model = Ticket
         fields = ['full_name', 'email', 'phone_number', 'tickets']
 
-    labels = {
-        'full_name': 'Enter your full name',
-        'email': 'Email Address',
-        'phone_number': 'Phone Number e.g 0712345678',
-        'tickets': 'Number of Tickets',
-    }
+        labels = {
+            'full_name': 'Enter your full name',
+            'email': 'Email Address',
+            'phone_number': 'Phone Number e.g 0712345678',
+            'tickets': 'Number of Tickets',
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.event = kwargs.pop('event', None)
+        super().__init__(*args, **kwargs)
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+
+        if self.event and Ticket.objects.filter(
+            event=self.event,
+            email__iexact=email
+        ).exists():
+            raise forms.ValidationError(
+                "This email address has already booked a ticket for this event."
+            )
+
+        return email
+
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get('phone_number')
+
+        if phone_number and self.event and Ticket.objects.filter(
+            event=self.event,
+            phone_number=phone_number
+        ).exists():
+            raise forms.ValidationError(
+                "This phone number has already booked a ticket for this event."
+            )
+
+        return phone_number
 
 
 class LoginForm(forms.Form):
