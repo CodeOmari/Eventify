@@ -35,6 +35,7 @@
                             <th>Phone Number</th>
                             <th>Email</th>
                             <th>Tickets Booked</th>
+                            <th>Booking Date</th>
                         </tr>
                     </thead>
 
@@ -45,6 +46,7 @@
                             <td>{{ attendee.phone_number }}</td>
                             <td>{{ attendee.email }}</td>
                             <td>{{ attendee.tickets }}</td>
+                            <td>{{ attendee.created_at }}</td>
                         </tr>
                         {% empty %}
                         <tr>
